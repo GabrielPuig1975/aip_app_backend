@@ -16,8 +16,8 @@
     "concurrently": "^9.1.2"
   },
   "scripts": {
-    "server_General_de_Imagenes": "node ./servers/server_General_de_Imagenes.jsx",
-    "server_de_Invitados": "node ./servers/server_de_Invitados.jsx",
+    "server_General_de_Imagenes": "node ./server_General_de_Imagenes.jsx",
+    "server_de_Invitados": "node ./server_de_Invitados.jsx",
     "dev": "concurrently \"npm run server_General_de_Imagenes\" \"npm run server_de_Invitados\""
   }
 }

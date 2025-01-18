@@ -14,7 +14,7 @@ const app = express();
 const DEFAULT_PORT = parseInt(process.env.VITE_IMAGES_SERVER_PORT, 10) || 5000;
 
 // Ruta al directorio de las imágenes
-const propiedadesFolder = path.join(__dirname, "..", "uploads", "propiedades");
+const propiedadesFolder = path.join(__dirname, "uploads", "propiedades");
 
 // Habilitar CORS
 app.use(
