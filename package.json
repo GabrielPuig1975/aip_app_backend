@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "detect-port": "^2.1.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0",
+    "nodemailer": "^6.9.16",
+    "portfinder": "^1.0.32",
+    "process": "^0.11.10"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+    "server_General_de_Imagenes": "node ./servers/server_General_de_Imagenes.jsx",
+    "server_de_Invitados": "node ./servers/server_de_Invitados.jsx",
+    "dev": "concurrently \"npm run server_General_de_Imagenes\" \"npm run server_de_Invitados\""
+  }
+}
