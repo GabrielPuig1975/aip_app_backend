@@ -28,7 +28,7 @@ db.connect((err) => {
     console.error('Error conectando a la base de datos de PERSONAL AIP:', err.code, err.message);
     return;
   }
-  console.log('Conectado a la base de datos PERSONAL AIP');
+  console.log('Conectado a la base de datos del PERSONAL AIP');
 });
 
 // Crear Usuario (Registro)
