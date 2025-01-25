@@ -65,9 +65,42 @@ app.post("/api/usuario_invitado/login", (req, res) => {
 
     if (!isMatch) return res.status(400).json({ error: "Contraseña incorrecta." });
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "15m" });
     res.json({ token });
   });
+});
+
+// Middleware para verificar y renovar el token
+const verifyAndRenewToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1]; // Obtener el token del encabezado
+
+  if (!token) return res.status(401).json({ error: "Acceso denegado. Token no proporcionado." });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      if (err.name === "TokenExpiredError") {
+        return res.status(401).json({ error: "El token ha expirado." });
+      }
+      return res.status(403).json({ error: "Token inválido." });
+    }
+
+    // Renovar el token si está próximo a expirar (5 minutos o menos)
+    const currentTime = Math.floor(Date.now() / 1000);
+    const timeLeft = decoded.exp - currentTime;
+
+    if (timeLeft <= 300) {
+      const newToken = jwt.sign({ id: decoded.id }, process.env.JWT_SECRET, { expiresIn: "15m" });
+      res.setHeader("x-renewed-token", newToken); // Enviar el nuevo token en los encabezados
+    }
+
+    req.user = decoded; // Guardar la información del usuario en el request
+    next();
+  });
+};
+
+// Ejemplo de ruta protegida
+app.get("/api/usuario_invitado/protegido", verifyAndRenewToken, (req, res) => {
+  res.json({ message: "Acceso autorizado", userId: req.user.id });
 });
 
 // Detectar un puerto disponible e iniciar el servidor
